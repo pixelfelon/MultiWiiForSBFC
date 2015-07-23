@@ -5,6 +5,8 @@
   #define UART_NUMBER 4
 #elif defined(PROMICRO)
   #define UART_NUMBER 2
+#elif defined(SBFC)
+  #define UART_NUMBER 2
 #else
   #define UART_NUMBER 1
 #endif

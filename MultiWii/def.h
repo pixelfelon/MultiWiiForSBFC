@@ -273,6 +273,112 @@
   #define RCAUX2PIND17
 #endif
 
+/**************************   atmega1284 (SBFC v0.1)  ************************************/
+#if defined(SBFC)
+  /*const uint8_t PWM_PIN[] = {
+    RC1,
+    RC2,
+    RC3,
+    RC4,
+    RC5,
+    RC6,
+    RC7,
+    RC8
+  };*/
+  #if !defined(MONGOOSE1_0)
+    #define LEDPIN_PINMODE;
+    #define LEDPIN_TOGGLE;
+    #define LEDPIN_OFF;
+    #define LEDPIN_ON;
+  #endif
+  #undef  PILOTLAMP
+  #define BUZZERPIN_PINMODE;
+  #define BUZZERPIN_ON;
+  #define BUZZERPIN_OFF;
+  #define RCAUXPIN
+  #define DISABLE_POWER_PIN
+  #define POWERPIN_PINMODE;
+  #define POWERPIN_ON;
+  #define POWERPIN_OFF;
+  #if defined(RCAUXPIN12)
+    #define RCAUXPIN
+  #endif
+  #define I2C_PULLUPS_ENABLE         PORTC |= 1<<0; PORTC |= 1<<1;   // PIN "A4&A5" (Actually D14 and D15) (SDA&SCL)
+  #define I2C_PULLUPS_DISABLE        PORTC &= ~(1<<0); PORTC &= ~(1<<1);
+  #if !defined(MONGOOSE1_0)
+    #define PINMODE_LCD                ;
+    #define LCDPIN_OFF                 ;
+    #define LCDPIN_ON                  ;
+    #define STABLEPIN_PINMODE          ;
+    #define STABLEPIN_ON               ;
+    #define STABLEPIN_OFF              ;
+  #endif 
+  #define PPM_PIN_INTERRUPT          attachInterrupt(18, rxInt, RISING); //PIN 0
+  #define RX_SERIAL_PORT             1
+  //RX PIN assignment inside the port //for PORTA i hope
+  #define THROTTLEPIN                0  //hopefully this doesn't matter, because it is completely wrong
+  #define ROLLPIN                    1
+  #define PITCHPIN                   2
+  #define YAWPIN                     3
+  #define AUX1PIN                    4
+  #define AUX2PIN                    5
+  #define AUX3PIN                    6
+  #define AUX4PIN                    7
+    
+  #define PCINT_PIN_COUNT            5 //maybe
+  #define PCINT_RX_BITS              (1<<2),(1<<4),(1<<5),(1<<6),(1<<7) //using ppm so this doesn't matter, nor does it work
+  #define PCINT_RX_PORT              PORTA //maybe
+  #define PCINT_RX_MASK              PCMSK2
+  #define PCIR_PORT_BIT              (1<<2)
+  #define RX_PC_INTERRUPT            PCINT2_vect
+  #define RX_PCINT_PIN_PORT          PIND
+  #define V_BATPIN                   A3    // Analog PIN 3 - WE DON'T ACTUALLY HAVE ONE
+  #define PSENSORPIN                 A2    // Analog PIN 2 - ALSO DON'T HAVE ONE
+  
+  #if defined(A0_A1_PIN_HEX) || (NUMBER_MOTOR > 6)
+    #define SOFT_PWM_1_PIN_HIGH        PORTC |= 1<<0;
+    #define SOFT_PWM_1_PIN_LOW         PORTC &= ~(1<<0);
+    #define SOFT_PWM_2_PIN_HIGH        PORTC |= 1<<1;
+    #define SOFT_PWM_2_PIN_LOW         PORTC &= ~(1<<1);  
+  #else
+    #define SOFT_PWM_1_PIN_HIGH        PORTD |= 1<<5;
+    #define SOFT_PWM_1_PIN_LOW         PORTD &= ~(1<<5);
+    #define SOFT_PWM_2_PIN_HIGH        PORTD |= 1<<6;
+    #define SOFT_PWM_2_PIN_LOW         PORTD &= ~(1<<6);
+  #endif
+  #define SOFT_PWM_3_PIN_HIGH        PORTC |= 1<<2;
+  #define SOFT_PWM_3_PIN_LOW         PORTC &= ~(1<<2);
+  #define SOFT_PWM_4_PIN_HIGH        PORTB |= 1<<4;
+  #define SOFT_PWM_4_PIN_LOW         PORTB &= ~(1<<4);
+  
+  #define SERVO_1_PINMODE            pinMode(A0,OUTPUT); // TILT_PITCH - WING left
+  #define SERVO_1_PIN_HIGH           PORTD |= 1<<4;
+  #define SERVO_1_PIN_LOW            PORTD &= ~(1<<4);
+  #define SERVO_2_PINMODE            pinMode(A1,OUTPUT); // TILT_ROLL  - WING right
+  #define SERVO_2_PIN_HIGH           PORTD |= 1<<5;
+  #define SERVO_2_PIN_LOW            PORTD &= ~(1<<5);
+  #define SERVO_3_PINMODE            pinMode(A2,OUTPUT); // CAM TRIG  - alt TILT_PITCH
+  #define SERVO_3_PIN_HIGH           PORTD |= 1<<6;
+  #define SERVO_3_PIN_LOW            PORTD &= ~(1<<6);
+  #if !defined(MONGOOSE1_0)
+    #define SERVO_4_PINMODE            pinMode(12,OUTPUT); // new       - alt TILT_ROLL
+    #define SERVO_4_PIN_HIGH           PORTD |= 1<<7;
+    #define SERVO_4_PIN_LOW            PORTD &= ~(1<<7);
+  #endif
+  #define SERVO_5_PINMODE            pinMode(11,OUTPUT); // BI LEFT
+  #define SERVO_5_PIN_HIGH           PORTB |= 1<<3;
+  #define SERVO_5_PIN_LOW            PORTB &= ~(1<<3);
+  #define SERVO_6_PINMODE            pinMode(3,OUTPUT);  // TRI REAR - BI RIGHT
+  #define SERVO_6_PIN_HIGH           PORTB|= 1<<4;
+  #define SERVO_6_PIN_LOW            PORTB &= ~(1<<4);
+  #define SERVO_7_PINMODE            pinMode(10,OUTPUT); // new
+  #define SERVO_7_PIN_HIGH           PORTB |= 1<<6;
+  #define SERVO_7_PIN_LOW            PORTB &= ~(1<<6);
+  #define SERVO_8_PINMODE            pinMode(9,OUTPUT); // new
+  #define SERVO_8_PIN_HIGH           PORTB |= 1<<7;
+  #define SERVO_8_PIN_LOW            PORTB &= ~(1<<7);
+#endif
+
 /**************************   atmega328P (Promini)  ************************************/
 #if defined(PROMINI)
   #if !defined(MONGOOSE1_0)
@@ -387,6 +493,11 @@
   #define SERVO_8_PINMODE            pinMode(9,OUTPUT); // new
   #define SERVO_8_PIN_HIGH           PORTB |= 1<<1;
   #define SERVO_8_PIN_LOW            PORTB &= ~(1<<1);
+  #if !defined(RX_SERIAL_PORT)
+    #define RX_SERIAL_PORT           1
+  #endif
+  #define USB_CDC_TX                 3
+  #define USB_CDC_RX                 2
 #endif
 
 /**************************  atmega32u4 (Promicro)  ***********************************/

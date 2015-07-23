@@ -1,11 +1,16 @@
 #ifndef CONFIG_H_
 #define CONFIG_H_
 
-//because we forgot the leds
+/*because why would it be right
 #define LEDPIN_OFF    0;
 #define LEDPIN_ON     0;
 #define LEDPIN_TOGGLE 0;
 #define BUZZERPIN_OFF 0;
+#define LEDPIN_PINMODE 0;
+#define POWERPIN_PINMODE 0;
+#define BUZZERPIN_PINMODE 0;
+#define STABLEPIN_PINMODE 0;
+#define POWERPIN_OFF 0;*/
 
 /*************************************************************************************************/
 /****           CONFIGURABLE PARAMETERS                                                       ****/
@@ -93,6 +98,9 @@
   /**************************************************************************************/
 
     /***************************    Combined IMU Boards    ********************************/
+    
+      #define SBFC
+    
       /* if you use a specific sensor board:
          please submit any correction to this list.
            Note from Alex: I only own some boards, for other boards, I'm not sure, the info was gathered via rc forums, be cautious */

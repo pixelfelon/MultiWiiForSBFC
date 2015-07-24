@@ -377,7 +377,7 @@ At this moment you can use this function only with WinGUI 2.3 release. MultiWiiC
     /****************************    PPM Sum Reciver    ***********************************/
       /* The following lines apply only for specific receiver with only one PPM sum signal, on digital PIN 2
          Select the right line depending on your radio brand. Feel free to modify the order in your PPM order is different */
-      //#define SERIAL_SUM_PPM         PITCH,YAW,THROTTLE,ROLL,AUX1,AUX2,AUX3,AUX4,8,9,10,11 //For Graupner/Spektrum
+      #define SERIAL_SUM_PPM         PITCH,YAW,THROTTLE,ROLL,AUX1,AUX2,AUX3,AUX4,8,9,10,11 //For Graupner/Spektrum
       //#define SERIAL_SUM_PPM         ROLL,PITCH,THROTTLE,YAW,AUX1,AUX2,AUX3,AUX4,8,9,10,11 //For Robe/Hitec/Futaba
       //#define SERIAL_SUM_PPM         ROLL,PITCH,YAW,THROTTLE,AUX1,AUX2,AUX3,AUX4,8,9,10,11 //For Multiplex
       //#define SERIAL_SUM_PPM         PITCH,ROLL,THROTTLE,YAW,AUX1,AUX2,AUX3,AUX4,8,9,10,11 //For some Hitec/Sanwa/Others
@@ -390,9 +390,9 @@ At this moment you can use this function only with WinGUI 2.3 release. MultiWiiC
          Spektrum Satellites are 3V devices.  DO NOT connect to 5V!
          For MEGA boards, attach sat grey wire to RX1, pin 19. Sat black wire to ground. Sat orange wire to Mega board's 3.3V (or any other 3V to 3.3V source).
          For PROMINI, attach sat grey to RX0.  Attach sat black to ground. */
-      //#define SPEKTRUM 1024
+      #define SPEKTRUM 1024
       //#define SPEKTRUM 2048
-      //#define RX_SERIAL_PORT 1    // Forced to 0 on Pro Mini and single serial boards; Set to your choice of 0, 1, or 2 on any Mega based board (defaults to 1 on Mega).
+      #define RX_SERIAL_PORT 1    // Forced to 0 on Pro Mini and single serial boards; Set to your choice of 0, 1, or 2 on any Mega based board (defaults to 1 on Mega).
       //**************************
       // Defines that allow a "Bind" of a Spektrum or Compatible Remote Receiver (aka Satellite) via Configuration GUI.
       //   Bind mode will be same as declared above, if your TX is capable.
@@ -469,7 +469,8 @@ At this moment you can use this function only with WinGUI 2.3 release. MultiWiiC
          Motor 1-4 = 10-bit hardware PWM
          Motor 5-8 = 10-bit Software PWM
          Servos    = 10-bit Software PWM */
-      //#define HWPWM6
+      #define HWPWM6
+      #define HWPWM8
 
     /**********************************    Aux 2 Pin     **********************************/
       /* AUX2 pin on pin RXO */
@@ -809,7 +810,7 @@ Also note, that maqgnetic declination changes with time, so recheck your value e
       //#define OLED_DIGOLE     // I2C OLED from http://www.digole.com/index.php?productID=550
 
     /******************************   Display settings   ***********************************/
-      #define LCD_SERIAL_PORT 0    // must be 0 on Pro Mini and single serial boards; Set to your choice on any Mega based board
+      #define LCD_SERIAL_PORT 2    // must be 0 on Pro Mini and single serial boards; Set to your choice on any Mega based board
 
       //#define SUPPRESS_OLED_I2C_128x64LOGO  // suppress display of OLED logo to save memory
 
@@ -993,7 +994,7 @@ Also note, that maqgnetic declination changes with time, so recheck your value e
      * It must be 16 characters total,
      * The last 4 characters will be overwritten with the version number.
      */
-    #define BOARD_NAME "MultiWii   V-.--"
+    #define BOARD_NAME "SBFC v0.1    XPR"
     //                  123456789.123456
 
   /*************      Support multiple configuration profiles in EEPROM     ************/

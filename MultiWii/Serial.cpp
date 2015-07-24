@@ -135,7 +135,7 @@ void SerialOpen(uint8_t port, uint32_t baud) {
       case 2: UCSR2A  = (1<<U2X2); UBRR2H = h; UBRR2L = l; UCSR2B |= (1<<RXEN2)|(1<<TXEN2)|(1<<RXCIE2); break;
       case 3: UCSR3A  = (1<<U2X3); UBRR3H = h; UBRR3L = l; UCSR3B |= (1<<RXEN3)|(1<<TXEN3)|(1<<RXCIE3); break;
     #endif
-    #if defined(MEGA)
+    #if defined(SBFC)
       case 0: UCSR0A  = (1<<U2X0); UBRR0H = h; UBRR0L = l; UCSR0B |= (1<<RXEN0)|(1<<TXEN0)|(1<<RXCIE0); break;
       case 1: UCSR1A  = (1<<U2X1); UBRR1H = h; UBRR1L = l; UCSR1B |= (1<<RXEN1)|(1<<TXEN1)|(1<<RXCIE1); break;
     #endif
@@ -156,7 +156,7 @@ void SerialEnd(uint8_t port) {
       case 2: UCSR2B &= ~((1<<RXEN2)|(1<<TXEN2)|(1<<RXCIE2)|(1<<UDRIE2)); break;
       case 3: UCSR3B &= ~((1<<RXEN3)|(1<<TXEN3)|(1<<RXCIE3)|(1<<UDRIE3)); break;
     #endif
-    #if defined(MEGA)
+    #if defined(SBFC)
       case 0: UCSR0B &= ~((1<<RXEN0)|(1<<TXEN0)|(1<<RXCIE0)|(1<<UDRIE0)); break;
       case 1: UCSR1B &= ~((1<<RXEN1)|(1<<TXEN1)|(1<<RXCIE1)|(1<<UDRIE1)); break;
     #endif
@@ -200,7 +200,7 @@ void store_uart_in_buf(uint8_t data, uint8_t portnum) {
   ISR(USART2_RX_vect)  { store_uart_in_buf(UDR2, 2); }
   ISR(USART3_RX_vect)  { store_uart_in_buf(UDR3, 3); }
 #endif
-#if defined(MEGA)
+#if defined(SBFC)
   ISR(USART0_RX_vect)  { store_uart_in_buf(UDR0, 0); }
   ISR(USART1_RX_vect)  { store_uart_in_buf(UDR1, 1); }
 #endif

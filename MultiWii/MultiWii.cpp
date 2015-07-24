@@ -627,7 +627,7 @@ void annexCode() { // this code is excetuted at each loop and won't interfere wi
 
 void setup() {
   SerialOpen(0,SERIAL0_COM_SPEED);
-  #if defined(PROMICRO)
+  #if defined(PROMICRO) || defined(SBFC)
     SerialOpen(1,SERIAL1_COM_SPEED);
   #endif
   #if defined(MEGA)
@@ -635,6 +635,7 @@ void setup() {
     SerialOpen(2,SERIAL2_COM_SPEED);
     SerialOpen(3,SERIAL3_COM_SPEED);
   #endif
+  SerialWrite(0,0x2E);  //DEBUG CODE TO BE REMOVE
   LEDPIN_PINMODE;
   POWERPIN_PINMODE;
   BUZZERPIN_PINMODE;
@@ -643,7 +644,7 @@ void setup() {
   initOutput();
   readGlobalSet();
   #ifndef NO_FLASH_CHECK
-    #if defined(MEGA)
+    #if defined(MEGA) || defined(SBFC)
       uint16_t i = 65000;                             // only first ~64K for mega board due to pgm_read_byte limitation
     #else
       uint16_t i = 32000;

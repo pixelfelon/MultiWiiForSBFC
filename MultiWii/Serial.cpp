@@ -27,8 +27,8 @@ static uint8_t serialBufferTX[TX_BUFFER_SIZE][UART_NUMBER];
 // *******************************************************
 
 
-#if defined(PROMINI) || defined(MEGA)
-  #if defined(PROMINI)
+#if defined(PROMINI) || defined(MEGA) || defined(SBFC)
+#if defined(PROMINI)
   ISR(USART_UDRE_vect) {  // Serial 0 on a PROMINI
   #endif
   #if defined(MEGA) || defined(SBFC)

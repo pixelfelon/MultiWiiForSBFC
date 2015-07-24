@@ -635,7 +635,6 @@ void setup() {
     SerialOpen(2,SERIAL2_COM_SPEED);
     SerialOpen(3,SERIAL3_COM_SPEED);
   #endif
-  SerialWrite(0,0x2E);  //DEBUG CODE TO BE REMOVE
   LEDPIN_PINMODE;
   POWERPIN_PINMODE;
   BUZZERPIN_PINMODE;

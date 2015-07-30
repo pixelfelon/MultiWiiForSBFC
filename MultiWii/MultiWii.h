@@ -1,8 +1,8 @@
 #ifndef MULTIWII_H_
 #define MULTIWII_H_
 
-#define  VERSION        240
-#define  NAVI_VERSION   7     //This allow sync with GUI
+#define  VERSION        230
+#define  NAVI_VERSION   5     //This allow sync with GUI - probably
 #include "types.h"
 #include "Alarms.h"
 

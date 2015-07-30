@@ -18,14 +18,17 @@
 //RAW RC values will be store here
 #if defined(SBUS)
   volatile uint16_t rcValue[RC_CHANS] = {1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500}; // interval [1000;2000]
+  #error WRONG
 #elif defined(SPEKTRUM) || defined(SERIAL_SUM_PPM)
   volatile uint16_t rcValue[RC_CHANS] = {1502, 1502, 1502, 1502, 1502, 1502, 1502, 1502, 1502, 1502, 1502, 1502}; // interval [1000;2000]
 #else
   volatile uint16_t rcValue[RC_CHANS] = {1502, 1502, 1502, 1502, 1502, 1502, 1502, 1502}; // interval [1000;2000]
+  #error NOPE
 #endif
 
 #if defined(SERIAL_SUM_PPM) //Channel order for PPM SUM RX Configs
   static uint8_t rcChannel[RC_CHANS] = {SERIAL_SUM_PPM};
+  #error NOT
 #elif defined(SBUS) //Channel order for SBUS RX Configs
   // for 16 + 2 Channels SBUS. The 10 extra channels 8->17 are not used by MultiWii, but it should be easy to integrate them.
   static uint8_t rcChannel[RC_CHANS] = {SBUS};

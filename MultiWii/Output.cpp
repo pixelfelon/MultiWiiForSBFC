@@ -20,7 +20,7 @@ void initializeServo();
   uint8_t PWM_PIN[8] = {9,10,11,3,6,5,A2,12};   //for a quad+: rear,right,left,front
 #endif
 #if defined(SBFC)
-  uint8_t PWM_PIN[] = {
+  uint8_t PWM_PIN[8] = {
     RC1,
     RC2,
     RC3,
@@ -215,6 +215,18 @@ void writeServos() {
         OCR4C = servo[7];
       #endif
     #endif
+    /*
+    // write HW PWM servos for the SBFC without PRI and SEC and crap
+    #if defined(SBFC)
+      OCR1B = servo[0];
+      OCR1A = servo[1];
+      OCR2B = servo[2];
+      OCR2A = servo[3];
+      OCR0A = servo[4];
+      OCR0B = servo[5];
+      OCR3A = servo[6];
+      OCR3B = servo[7];
+    #endif*/
     // write HW PWM servos for the promicro
     #if defined(PROMICRO) && defined(A32U4_4_HW_PWM_SERVOS)
       #if (PRI_SERVO_FROM <= 7 && PRI_SERVO_TO >= 7)
@@ -283,6 +295,55 @@ void writeMotors() { // [1000;2000] => [125;250]
       #else
         OCR2B = (motor[6]>>2) - 250;
         OCR2A = (motor[7]>>2) - 250;
+      #endif
+    #endif
+  #endif
+
+  #if defined(SBFC)// [1000:2000] => [8000:16000] hopefully for the sbfc
+    #if (NUMBER_MOTOR > 0) 
+      #ifndef EXT_MOTOR_RANGE 
+        OCR1B = motor[0]<<3; //  pin RC1
+      #else
+        OCR1B = ((motor[0]<<4) - 16000);
+      #endif
+    #endif
+    #if (NUMBER_MOTOR > 1)
+      #ifndef EXT_MOTOR_RANGE 
+        OCR1A = motor[1]<<3; //  pin RC2
+      #else
+        OCR1A = ((motor[1]<<4) - 16000);
+      #endif
+    #endif
+    #if (NUMBER_MOTOR > 2)
+      #ifndef EXT_MOTOR_RANGE 
+        OCR2B = motor[2]>>3; //  pin RC3
+        OCR2A = motor[3]>>3; //  pin RC4
+      #else
+        OCR2B = (motor[2]>>2) - 250;
+        OCR2A = (motor[3]>>2) - 250;
+      #endif
+    #endif
+    #if (NUMBER_MOTOR > 4)
+      #ifndef EXT_MOTOR_RANGE 
+        OCR0A = motor[4]<<3; //  pin RC5
+      #else
+        OCR0A = ((motor[4]<<4) - 16000);
+      #endif
+    #endif
+    #if (NUMBER_MOTOR > 5)
+      #ifndef EXT_MOTOR_RANGE 
+        OCR0B = motor[5]<<3; //  pin RC6
+      #else
+        OCR0B = ((motor[5]<<4) - 16000);
+      #endif
+    #endif
+    #if (NUMBER_MOTOR > 6)
+      #ifndef EXT_MOTOR_RANGE 
+        OCR3A = motor[6]>>3; //  pin RC7
+        OCR3B = motor[7]>>3; //  pin RC8
+      #else
+        OCR3A = (motor[6]>>2) - 250;
+        OCR3B = (motor[7]>>2) - 250;
       #endif
     #endif
   #endif
@@ -552,6 +613,46 @@ void initOutput() {
       TCCR2A |= _BV(COM2B1); // connect pin 9 to timer 2 channel B
       TCCR2A |= _BV(COM2A1); // connect pin 10 to timer 2 channel A
     #endif
+  #endif
+  
+  #if defined(SBFC)
+    #if (NUMBER_MOTOR > 0)
+      // init 16bit timer 1
+      TCCR1A |= (1<<WGM31); // phase correct mode
+      TCCR1A &= ~(1<<WGM30);
+      TCCR1B |= (1<<WGM33);
+      TCCR1B &= ~(1<<CS31); // no prescaler
+      ICR1   |= 0x3FFF; // TOP to 16383;      
+      
+      TCCR1A |= _BV(COM1B1); // connect pin RC1 to timer 3 channel B
+    #endif
+    #if (NUMBER_MOTOR > 1)
+      TCCR1A |= _BV(COM1A1); // connect pin RC2 to timer 3 channel A
+    #endif
+    #if (NUMBER_MOTOR > 2) //whoops, our board uses the wrong timers!
+      // timer 2 is also 8 bit
+      TCCR2A |= _BV(COM2B1); // connect pin RC3 to timer 0 channel B
+      TCCR2A |= _BV(COM2A1); // connect pin RC4 to timer 0 channel A
+    #endif
+    #if (NUMBER_MOTOR > 4)
+      // timer 0 is a 8bit timer so we cant change its range 
+      TCCR0A |= _BV(COM0A1); // connect pin RC5 to timer 0 channel A
+      TCCR0A |= _BV(COM0B1); // connect pin RC6 to timer 0 channel B
+    #endif
+    #if (NUMBER_MOTOR > 6)
+      // init 16bit timer 3
+      TCCR3A |= (1<<WGM31); // phase correct mode
+      TCCR3A &= ~(1<<WGM30);
+      TCCR3B |= (1<<WGM33);
+      TCCR3B &= ~(1<<CS31); // no prescaler
+      ICR3   |= 0x3FFF; // TOP to 16383;    
+      
+      TCCR3A |= _BV(COM3A1); // connect pin RC7 to timer 0 channel A
+    #endif
+    #if (NUMBER_MOTOR > 7)
+      TCCR3A |= _BV(COM3B1); // connect pin RC8 to timer 0 channel B
+    #endif
+
   #endif
   
   /******** Specific PWM Timers & Registers for the atmega32u4 (Promicro)   ************/
